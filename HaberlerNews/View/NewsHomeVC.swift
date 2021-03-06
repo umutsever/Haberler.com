@@ -75,7 +75,16 @@ class NewsHomeVC: UIViewController, UIScrollViewDelegate {
         }
     }
     
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteSelection), name: Notification.Name(rawValue: "deleteSelection"), object: nil)
+    }
+    
+    @objc func deleteSelection() {
+        selectedNews.removeAll()
+    }
+    
 //VC Ends Here
 }
 
@@ -102,7 +111,7 @@ extension NewsHomeVC: UITableViewDataSource {
 extension NewsHomeVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
+        selectedNews.removeAll()
         
         selectedNews.append(NewsTableModel(title: currentNews[indexPath.row].title, id: currentNews[indexPath.row].id, imageUrl: currentNews[indexPath.row].imageUrl, spot: currentNews[indexPath.row].spot, videoUrl: currentNews[indexPath.row].videoUrl, body: currentNews[indexPath.row].body))
         

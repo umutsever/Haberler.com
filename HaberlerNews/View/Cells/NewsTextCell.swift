@@ -1,5 +1,5 @@
 //
-//  NewsDetailCell.swift
+//  NewsTextCell.swift
 //  HaberlerNews
 //
 //  Created by Umut Sever on 6.03.2021.
@@ -7,12 +7,9 @@
 
 import UIKit
 
-class NewsDetailCell: UITableViewCell {
+class NewsTextCell: UITableViewCell {
 
-    @IBOutlet weak var topTitle: UILabel!
-    @IBOutlet weak var topView: UIView!
-    
-    
+    @IBOutlet weak var newsTextLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
