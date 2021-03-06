@@ -6,24 +6,39 @@
 //
 
 import UIKit
+import AVKit
+import AVFoundation
+import MediaPlayer
+import AudioToolbox
 
-class NewsDetailVC: UIViewController {
 
+class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
+    
+    var theNewsDetail = [NewsTableModel]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        print(theNewsDetail)
+        
+        
+     
+      
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    
+    
+    func playVideo() {
+        let videoURL = URL(string: theNewsDetail[0].videoUrl)
+            let player = AVPlayer(url: videoURL!)
+            let playervc = AVPlayerViewController()
+            playervc.delegate = self
+            playervc.player = player
+            self.present(playervc, animated: true) {
+                playervc.player!.play()
+            }
     }
-    */
 
 }

@@ -20,11 +20,16 @@ struct News: Decodable {
     var title: String
     var id: Int
     var imageUrl: String
-    
-  
-    
+    var spot: String
+    var videoUrl: String
+    var body: [Body]
+ 
 }
 
-
+struct Body: Codable {
+    let p: String?
+    let image: String?
+    let h3: String?
+}
 
 
