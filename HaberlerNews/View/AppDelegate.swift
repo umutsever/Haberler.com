@@ -31,6 +31,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
+    
+    func application(application: UIApplication, supportedInterfaceOrientationsForWindow window: UIWindow?) -> UIInterfaceOrientationMask {
+            guard let vc = (window?.rootViewController?.presentedViewController) else {
+                return .portrait
+            }
+
+        if (vc.isKind(of: NSClassFromString("AVFullScreenViewController")!)) {
+                return .allButUpsideDown
+            }
+
+        return .portrait
+        }
+    
 
     // MARK: - Core Data stack
 

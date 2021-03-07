@@ -15,18 +15,20 @@ import SDWebImage
 
 class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
     
-   
+  
+  
     @IBOutlet weak var tableView: UITableView!
     var theNewsDetail = [NewsTableModel]()
     var newsImage = UIImageView()
     var texts = [String]()
     var number = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       
         
-      
+        
+        
         
         tableView.register(UINib(nibName: "DetailsCell", bundle: .main), forCellReuseIdentifier: "detailsCell")
         tableView.register(UINib(nibName: "NewsTextCell", bundle: .main), forCellReuseIdentifier: "newsText")
@@ -43,7 +45,69 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
             self.tableView.reloadData()
         }
     }
+    
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+      
+        if UIDevice.current.orientation.isLandscape {
+            print("Landscape deyim")
+            
+            
+           
+            
+        }
+        else {
+            
+           
+                
+            }
+            
+            
+        
+    }
+    
+    
+    func videoPlaying (bound: CGRect, theLayer: UIView, top: Bool) {
+        
+        
+        let videoURL = URL(string: theNewsDetail[0].videoUrl)
+        
+        let asset = AVAsset(url: videoURL!)
+        let playerItem = AVPlayerItem(asset: asset)
+        let player = AVPlayer(playerItem: playerItem)
+        let playerLayer = AVPlayerLayer(player: player)
+        let controller = AVPlayerViewController()
+        controller.player = player
+        
+        playerLayer.frame = bound
+        playerLayer.videoGravity = .resizeAspect
+        theLayer.layer.addSublayer(playerLayer)
+        
+        if top == true {
+            
+        //AVPlayer object
+            self.present(controller, animated: true) {[weak self] in
+               DispatchQueue.main.async {
+                player.isMuted = true
+                 player.play()
+               }
+        
+            }
+            
+        } else {
+            player.isMuted = true
+            player.play()
+        }
+    
+    
+        
+    }
 
+  
+  
+    //VC Ends Here
 }
 
 
@@ -54,57 +118,49 @@ extension NewsDetailVC: UITableViewDataSource {
         return theNewsDetail[0].body.count - 1
         
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-       
+        
         
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "detailsCell", for: indexPath) as! DetailsCell
+            cell.selectionStyle = .none
             cell.topTitle.text = theNewsDetail[0].title
-          
+            
             if theNewsDetail[0].videoUrl == "" {
                 print("BOŞUM")
                 newsImage.frame = cell.topView.bounds
                 cell.topView.addSubview(newsImage)
+                cell.selectionStyle = .none
                 return cell
             } else {
-                print("Değilim")
-                let videoURL = URL(string: theNewsDetail[0].videoUrl)
-
-                let asset = AVAsset(url: videoURL!)
-                  let playerItem = AVPlayerItem(asset: asset)
-                  let player = AVPlayer(playerItem: playerItem)
-
-                  //3. Create AVPlayerLayer object
-                  let playerLayer = AVPlayerLayer(player: player)
-                playerLayer.frame = cell.topView.bounds
-                playerLayer.videoGravity = .resizeAspect
-                  //4. Add playerLayer to view's layer
-                cell.topView.layer.addSublayer(playerLayer)
-                  //5. Play Video
-                  player.play()
+                print("Değilim", "Video")
+           
+                videoPlaying(bound: cell.topView.bounds, theLayer: cell.topView, top: false)
                 
+                cell.selectionStyle = .none
                 return cell
             }
         }
-            
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsText", for: indexPath) as! NewsTextCell
         
+        cell.selectionStyle = .none
+        if let pText = theNewsDetail[0].body[indexPath.row].p {
+            cell.newsTextLabel.text = pText
+        } else if let hText = theNewsDetail[0].body[indexPath.row].h3 {
+            cell.newsTextLabel.text = hText.uppercased()
+        } else if let image = theNewsDetail[0].body[indexPath.row].image {
+            cell.newsTextLabel.text = ""
+        }
         
-            if let pText = theNewsDetail[0].body[indexPath.row].p {
-                cell.newsTextLabel.text = pText
-            } else if let hText = theNewsDetail[0].body[indexPath.row].h3 {
-                cell.newsTextLabel.text = hText.uppercased()
-            } else if let image = theNewsDetail[0].body[indexPath.row].image {
-                cell.newsTextLabel.text = ""
-            }
-       
         
-       
-
+        
+        
         return cell
     }
-
+    
     
 }
+
