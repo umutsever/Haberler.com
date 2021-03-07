@@ -16,7 +16,7 @@ class NewsHomeVC: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     var firstIndexNumber = 0
     var secondIndexNumber = 3
-    
+    var theNewsTexts = [String:String]()
     let url =  URL(string: "http://app.haberler.com/services/haberlercom/2.11/service.asmx/haberler?category=manset&count=35&offset=0&deviceType=1&userId=61ed99e0c09a8664")
     let request = GetRequests()
     
@@ -33,18 +33,23 @@ class NewsHomeVC: UIViewController, UIScrollViewDelegate {
         
       
       print("Açıldı")
-       
+        
     }
     
     func getNews() {
         self.spinner.startAnimating()
         GetRequests().getNews(url: url!) { (gotNews) in
-            
+
             if let gotNews = gotNews {
+                
+             
+                
                 for i in self.firstIndexNumber...self.secondIndexNumber {
+       
                     self.currentNews.append(NewsTableModel(title: gotNews.news[i].title, id: gotNews.news[i].id, imageUrl: gotNews.news[i].imageUrl, spot: gotNews.news[i].spot, videoUrl: gotNews.news[i].videoUrl.replacingOccurrences(of: "/playlist.m3u8", with: ""), body: gotNews.news[i].body))
                   
-                
+                   
+               
                 }
               
             }
@@ -52,10 +57,12 @@ class NewsHomeVC: UIViewController, UIScrollViewDelegate {
                 self.tableView.reloadData()
                 self.firstIndexNumber = self.secondIndexNumber + 1
                 self.secondIndexNumber = self.firstIndexNumber + 3
+                self.spinner.stopAnimating()
+          
         }
       
         }
-        self.spinner.stopAnimating()
+        
         
     }
 
@@ -112,6 +119,7 @@ extension NewsHomeVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedNews.removeAll()
+        
         
         selectedNews.append(NewsTableModel(title: currentNews[indexPath.row].title, id: currentNews[indexPath.row].id, imageUrl: currentNews[indexPath.row].imageUrl, spot: currentNews[indexPath.row].spot, videoUrl: currentNews[indexPath.row].videoUrl, body: currentNews[indexPath.row].body))
         

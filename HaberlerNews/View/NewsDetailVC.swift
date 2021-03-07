@@ -29,8 +29,8 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
         }
       
         
-        print(theNewsDetail[0].videoUrl)
-        
+       
+        print(theNewsDetail[0].body.count, "count")
         
         tableView.register(UINib(nibName: "DetailsCell", bundle: .main), forCellReuseIdentifier: "detailsCell")
         tableView.register(UINib(nibName: "NewsTextCell", bundle: .main), forCellReuseIdentifier: "newsText")
@@ -73,12 +73,13 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
 
 extension NewsDetailVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return theNewsDetail[0].body.count + 1
+        return theNewsDetail[0].body.count - 1
         
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+       
         
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "detailsCell", for: indexPath) as! DetailsCell
@@ -88,6 +89,7 @@ extension NewsDetailVC: UITableViewDataSource {
                 newsImage.frame = cell.topView.bounds
                 cell.topView.addSubview(newsImage)
             } else {
+                
                 let videoURL = URL(string: theNewsDetail[0].videoUrl)
 
                 let asset = AVAsset(url: videoURL!)
@@ -106,28 +108,39 @@ extension NewsDetailVC: UITableViewDataSource {
                 return cell
             }
         }
-        
-            let cell = tableView.dequeueReusableCell(withIdentifier: "newsText", for: indexPath) as! NewsTextCell
-       
             
-            for i in theNewsDetail[0].body where i.p != "" {
-                cell.newsTextLabel.text = i.p
-                
-            }
-                
-            
-           
-     
-            
-            
+        let cell = tableView.dequeueReusableCell(withIdentifier: "newsText", for: indexPath) as! NewsTextCell
+//            for p in 0...5 {
+//
+//                for i in 0...p {
+//                    if let pText = theNewsDetail[0].body[i].p {
+//                        cell.newsTextLabel.text = pText
+//
+//                    }
+//                     if let hText = theNewsDetail[0].body[i].h3 {
+//                        cell.newsTextLabel.text = hText
+//
+//                    }
+//                    if let image = theNewsDetail[0].body[i].image {
+//                       cell.newsTextLabel.text = image
+//
+//                    }
+//                }
+//
+//            }
+        
+        if theNewsDetail[0].body[indexPath.row].p != "" {
+            cell.newsTextLabel.text = theNewsDetail[0].body[indexPath.row].p
+        } else if theNewsDetail[0].body[indexPath.row].h3 != "" {
+            cell.newsTextLabel.text = theNewsDetail[0].body[indexPath.row].h3?.uppercased()
+        } else if theNewsDetail[0].body[indexPath.row].image != "" {
+            cell.newsTextLabel.text = theNewsDetail[0].body[indexPath.row].image
+        }
         
         
-        
-      
         
         return cell
-
     }
 
-
+    
 }
