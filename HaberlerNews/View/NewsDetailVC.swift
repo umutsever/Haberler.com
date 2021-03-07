@@ -24,28 +24,9 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        DispatchQueue.main.async {
-            self.newsImage.sd_setImage(with: URL(string: self.theNewsDetail[0].imageUrl), placeholderImage: UIImage(named: "placeholder.png"))
-            
-            
-//            for i in self.theNewsDetail[0].body[0...5] {
-//                if let pText = i.p {
-//                    self.texts.append(pText)
-//                } else if let hText = i.h3 {
-//                    self.texts.append(hText.uppercased())
-//                } else if let image = i.image {
-//                    self.texts.append(image)
-//                }
-//            }
-            
-            
-            self.tableView.reloadData()
-        }
+       
         
       
-      
-       
-        print(theNewsDetail[0].body.count, "count")
         
         tableView.register(UINib(nibName: "DetailsCell", bundle: .main), forCellReuseIdentifier: "detailsCell")
         tableView.register(UINib(nibName: "NewsTextCell", bundle: .main), forCellReuseIdentifier: "newsText")
@@ -54,8 +35,18 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "deleteSelection"), object: nil)
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        DispatchQueue.main.async {
+            self.newsImage.sd_setImage(with: URL(string: self.theNewsDetail[0].imageUrl), placeholderImage: UIImage(named: "placeholder.png"))
+            self.tableView.reloadData()
+        }
+    }
 
 }
+
+
 
 
 extension NewsDetailVC: UITableViewDataSource {
@@ -71,12 +62,14 @@ extension NewsDetailVC: UITableViewDataSource {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "detailsCell", for: indexPath) as! DetailsCell
             cell.topTitle.text = theNewsDetail[0].title
-            
+          
             if theNewsDetail[0].videoUrl == "" {
+                print("BOŞUM")
                 newsImage.frame = cell.topView.bounds
                 cell.topView.addSubview(newsImage)
+                return cell
             } else {
-                
+                print("Değilim")
                 let videoURL = URL(string: theNewsDetail[0].videoUrl)
 
                 let asset = AVAsset(url: videoURL!)
@@ -98,7 +91,7 @@ extension NewsDetailVC: UITableViewDataSource {
             
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsText", for: indexPath) as! NewsTextCell
         
-        for i in 1...indexPath.row {
+        
             if let pText = theNewsDetail[0].body[indexPath.row].p {
                 cell.newsTextLabel.text = pText
             } else if let hText = theNewsDetail[0].body[indexPath.row].h3 {
@@ -106,7 +99,7 @@ extension NewsDetailVC: UITableViewDataSource {
             } else if let image = theNewsDetail[0].body[indexPath.row].image {
                 cell.newsTextLabel.text = ""
             }
-        }
+       
         
        
 

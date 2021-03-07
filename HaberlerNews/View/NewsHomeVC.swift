@@ -45,14 +45,13 @@ class NewsHomeVC: UIViewController, UIScrollViewDelegate {
              
                 
                 for i in self.firstIndexNumber...self.secondIndexNumber {
-       
+                
                     self.currentNews.append(NewsTableModel(title: gotNews.news[i].title, id: gotNews.news[i].id, imageUrl: gotNews.news[i].imageUrl, spot: gotNews.news[i].spot, videoUrl: gotNews.news[i].videoUrl.replacingOccurrences(of: "/playlist.m3u8", with: ""), body: gotNews.news[i].body))
-                  
-                   
-               
+
                 }
               
             }
+            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 self.firstIndexNumber = self.secondIndexNumber + 1

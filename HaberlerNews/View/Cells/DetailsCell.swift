@@ -9,7 +9,7 @@ import UIKit
 
 class DetailsCell: UITableViewCell {
 
-    @IBOutlet weak var pText: UILabel!
+   
     @IBOutlet weak var topTitle: UILabel!
     @IBOutlet weak var topView: UIView!
     override func awakeFromNib() {
