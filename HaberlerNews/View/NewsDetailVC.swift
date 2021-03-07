@@ -19,16 +19,31 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
     @IBOutlet weak var tableView: UITableView!
     var theNewsDetail = [NewsTableModel]()
     var newsImage = UIImageView()
-    
+    var texts = [String]()
+    var number = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         
         DispatchQueue.main.async {
             self.newsImage.sd_setImage(with: URL(string: self.theNewsDetail[0].imageUrl), placeholderImage: UIImage(named: "placeholder.png"))
+            
+            
+//            for i in self.theNewsDetail[0].body[0...5] {
+//                if let pText = i.p {
+//                    self.texts.append(pText)
+//                } else if let hText = i.h3 {
+//                    self.texts.append(hText.uppercased())
+//                } else if let image = i.image {
+//                    self.texts.append(image)
+//                }
+//            }
+            
+            
             self.tableView.reloadData()
         }
-      
         
+      
+      
        
         print(theNewsDetail[0].body.count, "count")
         
@@ -110,35 +125,19 @@ extension NewsDetailVC: UITableViewDataSource {
         }
             
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsText", for: indexPath) as! NewsTextCell
-//            for p in 0...5 {
-//
-//                for i in 0...p {
-//                    if let pText = theNewsDetail[0].body[i].p {
-//                        cell.newsTextLabel.text = pText
-//
-//                    }
-//                     if let hText = theNewsDetail[0].body[i].h3 {
-//                        cell.newsTextLabel.text = hText
-//
-//                    }
-//                    if let image = theNewsDetail[0].body[i].image {
-//                       cell.newsTextLabel.text = image
-//
-//                    }
-//                }
-//
-//            }
         
-        if theNewsDetail[0].body[indexPath.row].p != "" {
-            cell.newsTextLabel.text = theNewsDetail[0].body[indexPath.row].p
-        } else if theNewsDetail[0].body[indexPath.row].h3 != "" {
-            cell.newsTextLabel.text = theNewsDetail[0].body[indexPath.row].h3?.uppercased()
-        } else if theNewsDetail[0].body[indexPath.row].image != "" {
-            cell.newsTextLabel.text = theNewsDetail[0].body[indexPath.row].image
+        for i in 1...indexPath.row {
+            if let pText = theNewsDetail[0].body[indexPath.row].p {
+                cell.newsTextLabel.text = pText
+            } else if let hText = theNewsDetail[0].body[indexPath.row].h3 {
+                cell.newsTextLabel.text = hText.uppercased()
+            } else if let image = theNewsDetail[0].body[indexPath.row].image {
+                cell.newsTextLabel.text = image
+            }
         }
         
-        
-        
+       
+
         return cell
     }
 
