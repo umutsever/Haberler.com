@@ -53,15 +53,12 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
       
         if UIDevice.current.orientation.isLandscape {
             print("Landscape deyim")
+
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "landscapeMode"), object: nil)
             
-            
-           
-            
-        }
-        else {
-            
-           
-                
+        } else if UIDevice.current.orientation.isPortrait  {
+            print("Potrait deyim")
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "portraitMode"), object: nil)
             }
             
             
@@ -69,7 +66,7 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
     }
     
     
-    func videoPlaying (bound: CGRect, theLayer: UIView, top: Bool) {
+    func videoPlaying (bound: CGRect, theLayer: UIView) {
         
         
         let videoURL = URL(string: theNewsDetail[0].videoUrl)
@@ -77,6 +74,7 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
         let asset = AVAsset(url: videoURL!)
         let playerItem = AVPlayerItem(asset: asset)
         let player = AVPlayer(playerItem: playerItem)
+        
         let playerLayer = AVPlayerLayer(player: player)
         let controller = AVPlayerViewController()
         controller.player = player
@@ -85,7 +83,7 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
         playerLayer.videoGravity = .resizeAspect
         theLayer.layer.addSublayer(playerLayer)
         
-        if top == true {
+       
             
         //AVPlayer object
             self.present(controller, animated: true) {[weak self] in
@@ -93,19 +91,25 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
                 player.isMuted = true
                  player.play()
                }
-        
+
             }
-            
-        } else {
+
+       
             player.isMuted = true
             player.play()
-        }
+       
     
-    
+        NotificationCenter.default.addObserver(self, selector: #selector(landscapeModePlayer), name: NSNotification.Name("landscapeMode"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(potraitModePlayer), name: NSNotification.Name("portraitMode"), object: nil)
     }
 
-  
+    @objc func landscapeModePlayer () {
+        print("landscape çalışıyor")
+    }
+    @objc func potraitModePlayer () {
+        print("portrait çalışıyor")
+    }
   
     //VC Ends Here
 }
@@ -137,7 +141,7 @@ extension NewsDetailVC: UITableViewDataSource {
             } else {
                 print("Değilim", "Video")
            
-                videoPlaying(bound: cell.topView.bounds, theLayer: cell.topView, top: false)
+                videoPlaying(bound: cell.topView.bounds, theLayer: cell.topView)
                 
                 cell.selectionStyle = .none
                 return cell
