@@ -67,29 +67,28 @@
 		113720B525F2806800663423 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				116B217225F273EA00019D69 /* HaberlerNews.xcdatamodeld */,
 				113720A925F2784500663423 /* NewsStruct.swift */,
+				113720C325F2958D00663423 /* NewsViewModel.swift */,
+				116B217225F273EA00019D69 /* HaberlerNews.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		113720B625F2807400663423 /* ViewModel */ = {
+		113720B625F2807400663423 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				113720C325F2958D00663423 /* NewsViewModel.swift */,
+				113720A325F2770100663423 /* NewsDetailVC.swift */,
+				116B216D25F273EA00019D69 /* NewsHomeVC.swift */,
 			);
-			path = ViewModel;
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		113720B725F2808500663423 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				1167780425F380D000C10F3F /* Cells */,
-				113720A325F2770100663423 /* NewsDetailVC.swift */,
-				116B216D25F273EA00019D69 /* NewsHomeVC.swift */,
 				116B216F25F273EA00019D69 /* Main.storyboard */,
-				116B216925F273EA00019D69 /* AppDelegate.swift */,
-				116B216B25F273EA00019D69 /* SceneDelegate.swift */,
+				116B217725F273EC00019D69 /* LaunchScreen.storyboard */,
+				1167780425F380D000C10F3F /* Cells */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -138,13 +137,22 @@
 			children = (
 				113720BD25F28FA800663423 /* Service */,
 				113720B725F2808500663423 /* View */,
-				113720B625F2807400663423 /* ViewModel */,
+				113720B625F2807400663423 /* Controller */,
 				113720B525F2806800663423 /* Model */,
+				11751BD125F558B60088547B /* Others */,
 				116B217525F273EC00019D69 /* Assets.xcassets */,
-				116B217725F273EC00019D69 /* LaunchScreen.storyboard */,
 				116B217A25F273EC00019D69 /* Info.plist */,
 			);
 			path = HaberlerNews;
+			sourceTree = "<group>";
+		};
+		11751BD125F558B60088547B /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				116B216925F273EA00019D69 /* AppDelegate.swift */,
+				116B216B25F273EA00019D69 /* SceneDelegate.swift */,
+			);
+			path = Others;
 			sourceTree = "<group>";
 		};
 		B12D5CAFB075725F477EF27D /* Frameworks */ = {

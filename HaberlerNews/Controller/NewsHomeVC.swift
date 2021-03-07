@@ -32,22 +32,15 @@ class NewsHomeVC: UIViewController, UIScrollViewDelegate {
         getNews()
         
       
-      print("Açıldı")
         
     }
     
     func getNews() {
         self.spinner.startAnimating()
         GetRequests().getNews(url: url!) { (gotNews) in
-
             if let gotNews = gotNews {
-                
-             
-                
                 for i in self.firstIndexNumber...self.secondIndexNumber {
-                
                     self.currentNews.append(NewsTableModel(title: gotNews.news[i].title, id: gotNews.news[i].id, imageUrl: gotNews.news[i].imageUrl, spot: gotNews.news[i].spot, videoUrl: gotNews.news[i].videoUrl.replacingOccurrences(of: "/playlist.m3u8", with: ""), body: gotNews.news[i].body))
-
                 }
               
             }
@@ -118,8 +111,6 @@ extension NewsHomeVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedNews.removeAll()
-        
-        
         selectedNews.append(NewsTableModel(title: currentNews[indexPath.row].title, id: currentNews[indexPath.row].id, imageUrl: currentNews[indexPath.row].imageUrl, spot: currentNews[indexPath.row].spot, videoUrl: currentNews[indexPath.row].videoUrl, body: currentNews[indexPath.row].body))
         
         performSegue(withIdentifier: "newsToDetails", sender: self)

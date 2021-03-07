@@ -13,7 +13,6 @@ class GetRequests {
 
     
     func getNews(url: URL, completion: @escaping (AllNews?) -> ()) {
-        
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -24,14 +23,10 @@ class GetRequests {
                 
                 if let newsArray = newsArray {
                     completion(newsArray)
-                    
                 }
-                
-                
+
             }
-            
-            
-            
+
         }.resume()
         
         

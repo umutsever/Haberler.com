@@ -11,9 +11,7 @@ import Foundation
 //Controller Structs
 
 struct NewsTableModel {
-   
-
-    
+  
     var title: String
     var id: Int
     var imageUrl: String
