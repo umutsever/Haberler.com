@@ -54,35 +54,7 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "deleteSelection"), object: nil)
         
     }
-    
-    
-    
-    
-//
-//    func playVideo() {
-//        let videoURL = URL(string: theNewsDetail[0].videoUrl)
-//
-//        let asset = AVAsset(url: videoURL!)
-//          let playerItem = AVPlayerItem(asset: asset)
-//          let player = AVPlayer(playerItem: playerItem)
-//
-//          //3. Create AVPlayerLayer object
-//          let playerLayer = AVPlayerLayer(player: player)
-//        print(playerLayer.frame, "FRAME")
-//        playerLayer.frame = self.topView.bounds
-//        playerLayer.videoGravity = .resizeAspect
-//
-//          //4. Add playerLayer to view's layer
-//          self.topView.layer.addSublayer(playerLayer)
-//
-//          //5. Play Video
-//          player.play()
-//
-//
-//
-//    }
-    
-    
+
 }
 
 
@@ -132,7 +104,7 @@ extension NewsDetailVC: UITableViewDataSource {
             } else if let hText = theNewsDetail[0].body[indexPath.row].h3 {
                 cell.newsTextLabel.text = hText.uppercased()
             } else if let image = theNewsDetail[0].body[indexPath.row].image {
-                cell.newsTextLabel.text = image
+                cell.newsTextLabel.text = ""
             }
         }
         
