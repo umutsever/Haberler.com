@@ -7,5 +7,6 @@ target 'HaberlerNews' do
 
   # Pods for HaberlerNews
   pod 'SDWebImage', '~> 5.0'
+  pod 'GPVideoPlayer'
 
 end

@@ -1,18 +1,22 @@
 PODS:
+  - GPVideoPlayer (1.0.4)
   - SDWebImage (5.10.4):
     - SDWebImage/Core (= 5.10.4)
   - SDWebImage/Core (5.10.4)
 
 DEPENDENCIES:
+  - GPVideoPlayer
   - SDWebImage (~> 5.0)
 
 SPEC REPOS:
   trunk:
+    - GPVideoPlayer
     - SDWebImage
 
 SPEC CHECKSUMS:
+  GPVideoPlayer: fcb68bdba2522f3edd3145b0f1de17423e0b30e1
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
 
-PODFILE CHECKSUM: b3aecd60e6bfee7f9133081fe23a69ea99b38bb9
+PODFILE CHECKSUM: 5a507c3fdd0cf014ec560e6b2ece0474e6671836
 
 COCOAPODS: 1.9.1

@@ -9,14 +9,9 @@ import UIKit
 import AVKit
 import AVFoundation
 import SDWebImage
-
+import GPVideoPlayer
 
 class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
-    
-    
-    
-    var player = AVPlayer()
-   
     
     
     
@@ -49,8 +44,7 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
     }
     
     
-    
-    
+   
     
     //Video Player - Will be configure for landscape mode
     @objc func landscapeModePlayer (bound: CGRect, theLayer: UIView) -> AVPlayer  {
@@ -72,6 +66,18 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
     }
     
     
+    func gPlayer (bound: CGRect, videoView: UIView) {
+        if let GPplayer = GPVideoPlayer.initialize(with: bound) {
+            GPplayer.isToShowPlaybackControls = true
+                 videoView.addSubview(GPplayer)
+                  let url1 = URL(string: theNewsDetail[0].videoUrl)!
+            GPplayer.loadVideos(with: [url1])
+            GPplayer.isToShowPlaybackControls = true
+            GPplayer.isMuted = true
+            GPplayer.playVideo()
+              }
+    }
+    
     //MARK: Configure landscape mode
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -83,25 +89,25 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
             print("Landscape")
             
             
-            
-            controller.player = landscapeModePlayer(bound: view.bounds, theLayer: view)
-            
-            present(controller, animated: true) {
-                self.player.play()
-                
-            }
+            gPlayer(bound: view.bounds, videoView: view)
+//            controller.player = landscapeModePlayer(bound: view.bounds, theLayer: view)
+//
+//            present(controller, animated: true) {
+//                self.player.play()
+//
+//            }
             
             
         } else if UIDevice.current.orientation.isPortrait  {
             print("Portrait ")
-            
-           
-            
-            
+            dismiss(animated: true) {
+                
+            }
         }
         
     }
     
+   
     
     //VC Ends Here
 }
@@ -131,8 +137,11 @@ extension NewsDetailVC: UITableViewDataSource {
                 cell.selectionStyle = .none
                 return cell
             } else {
-                landscapeModePlayer(bound: cell.topView.bounds, theLayer: cell.topView)
-                cellView = cell.topView
+                
+               
+                gPlayer(bound: cell.topView.bounds, videoView: cell.topView)
+       
+               
                 cell.selectionStyle = .none
                 return cell
             }
