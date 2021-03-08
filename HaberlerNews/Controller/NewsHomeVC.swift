@@ -9,7 +9,7 @@ import UIKit
 import SDWebImage
 
 class NewsHomeVC: UIViewController, UIScrollViewDelegate {
-
+    
     @IBOutlet weak var tableView: UITableView!
     var currentNews = [NewsTableModel]()
     var selectedNews = [NewsTableModel]()
@@ -22,43 +22,39 @@ class NewsHomeVC: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        spinner.hidesWhenStopped = true
         
+        spinner.hidesWhenStopped = true
         tableView.dataSource = self
         tableView.delegate = self
         
         tableView.register(UINib(nibName: "MainNewsCell", bundle: .main), forCellReuseIdentifier: "newsCell")
-
+        
         getNews()
         
-      
+        
         
     }
     
+    // News getting function
     func getNews() {
         self.spinner.startAnimating()
         GetRequests().getNews(url: url!) { (gotNews) in
-            if let gotNews = gotNews {
-                for i in self.firstIndexNumber...self.secondIndexNumber {
-                    self.currentNews.append(NewsTableModel(title: gotNews.news[i].title, id: gotNews.news[i].id, imageUrl: gotNews.news[i].imageUrl, spot: gotNews.news[i].spot, videoUrl: gotNews.news[i].videoUrl.replacingOccurrences(of: "/playlist.m3u8", with: ""), body: gotNews.news[i].body))
-                }
-              
+        if let gotNews = gotNews {
+        for i in self.firstIndexNumber...self.secondIndexNumber {
+        self.currentNews.append(NewsTableModel(title: gotNews.news[i].title, id: gotNews.news[i].id, imageUrl: gotNews.news[i].imageUrl, spot: gotNews.news[i].spot, videoUrl: gotNews.news[i].videoUrl.replacingOccurrences(of: "/playlist.m3u8", with: ""), body: gotNews.news[i].body))
             }
-            
+            }
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 self.firstIndexNumber = self.secondIndexNumber + 1
                 self.secondIndexNumber = self.firstIndexNumber + 3
                 self.spinner.stopAnimating()
-          
+                
+            }
         }
-      
-        }
-        
-        
     }
-
-
+    
+    // Load more news when scrolling
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y
         if position > (tableView.contentSize.height-100-scrollView.frame.size.height) {
@@ -75,6 +71,7 @@ class NewsHomeVC: UIViewController, UIScrollViewDelegate {
     }
     
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         NotificationCenter.default.addObserver(self, selector: #selector(deleteSelection), name: Notification.Name(rawValue: "deleteSelection"), object: nil)
@@ -84,7 +81,7 @@ class NewsHomeVC: UIViewController, UIScrollViewDelegate {
         selectedNews.removeAll()
     }
     
-//VC Ends Here
+    //VC Ends Here
 }
 
 
@@ -101,7 +98,6 @@ extension NewsHomeVC: UITableViewDataSource {
         cell.selectionStyle = .none
         cell.newsTitle.text = currentNews[indexPath.row].title
         cell.newsImage.sd_setImage(with: URL(string: currentNews[indexPath.row].imageUrl), placeholderImage: UIImage(named: "placeholder.png"))
-        
         return cell
     }
     
@@ -110,8 +106,8 @@ extension NewsHomeVC: UITableViewDataSource {
 extension NewsHomeVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedNews.removeAll()
-        selectedNews.append(NewsTableModel(title: currentNews[indexPath.row].title, id: currentNews[indexPath.row].id, imageUrl: currentNews[indexPath.row].imageUrl, spot: currentNews[indexPath.row].spot, videoUrl: currentNews[indexPath.row].videoUrl, body: currentNews[indexPath.row].body))
+            selectedNews.removeAll()
+            selectedNews.append(NewsTableModel(title: currentNews[indexPath.row].title, id: currentNews[indexPath.row].id, imageUrl: currentNews[indexPath.row].imageUrl, spot: currentNews[indexPath.row].spot, videoUrl: currentNews[indexPath.row].videoUrl, body: currentNews[indexPath.row].body))
         
         performSegue(withIdentifier: "newsToDetails", sender: self)
     }

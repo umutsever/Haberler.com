@@ -13,10 +13,7 @@ import GPVideoPlayer
 
 class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
     
-    
-    
-    var cellBound = CGRect(x: 0.0, y: 0.0, width: 355.0, height: 205.0)
-    var cellView = UIView()
+   
     @IBOutlet weak var tableView: UITableView!
     var theNewsDetail = [NewsTableModel]()
     var newsImage = UIImageView()
@@ -46,26 +43,7 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
     
    
     
-    //Video Player - Will be configure for landscape mode
-    @objc func landscapeModePlayer (bound: CGRect, theLayer: UIView) -> AVPlayer  {
-        
-        let videoURL = URL(string: theNewsDetail[0].videoUrl)
-        let asset = AVAsset(url: videoURL!)
-        let playerItem = AVPlayerItem(asset: asset)
-        let player = AVPlayer(playerItem: playerItem)
-        let controller = AVPlayerViewController()
-        controller.player = player
-        let playerLayer = AVPlayerLayer(player: player)
-        playerLayer.videoGravity = .resizeAspect
-        playerLayer.frame = bound
-        theLayer.layer.addSublayer(playerLayer)
-        player.isMuted = true
-        player.play()
-        
-        return player
-    }
-    
-    
+    //Video Player
     func gPlayer (bound: CGRect, videoView: UIView) {
         if let GPplayer = GPVideoPlayer.initialize(with: bound) {
             GPplayer.isToShowPlaybackControls = true
@@ -88,21 +66,10 @@ class NewsDetailVC: UIViewController, AVPlayerViewControllerDelegate {
         if UIDevice.current.orientation.isLandscape {
             print("Landscape")
             
-            
-            gPlayer(bound: view.bounds, videoView: view)
-//            controller.player = landscapeModePlayer(bound: view.bounds, theLayer: view)
-//
-//            present(controller, animated: true) {
-//                self.player.play()
-//
-//            }
-            
+
             
         } else if UIDevice.current.orientation.isPortrait  {
-            print("Portrait ")
-            dismiss(animated: true) {
-                
-            }
+          
         }
         
     }
@@ -131,22 +98,18 @@ extension NewsDetailVC: UITableViewDataSource {
             cell.topTitle.text = theNewsDetail[0].title
             
             if theNewsDetail[0].videoUrl == "" {
-                print("BOŞUM")
                 newsImage.frame = cell.topView.bounds
                 cell.topView.addSubview(newsImage)
                 cell.selectionStyle = .none
                 return cell
             } else {
-                
-               
                 gPlayer(bound: cell.topView.bounds, videoView: cell.topView)
-       
-               
                 cell.selectionStyle = .none
                 return cell
             }
         }
         
+        //Cells' texts
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsText", for: indexPath) as! NewsTextCell
         cell.selectionStyle = .none
         if let pText = theNewsDetail[0].body[indexPath.row].p {
